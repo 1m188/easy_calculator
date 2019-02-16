@@ -15,7 +15,7 @@ extern "C"
 #endif
 
     //对外调用的计算接口
-    DLL_EXPORT int calc(char *s, int length);
+    DLL_EXPORT int calc(const char *s, int length);
 
 #ifdef RELEASE
 }
@@ -26,7 +26,7 @@ extern "C"
 #include "string"
 
 //从字符串转换为中缀表达式
-std::vector<std::string> str2In(char *s, int length);
+std::vector<std::string> str2In(const char *s, int length);
 
 //从中缀表达式转换为后缀表达式
 std::vector<std::string> in2Post(const std::vector<std::string> &inFixExpression);
