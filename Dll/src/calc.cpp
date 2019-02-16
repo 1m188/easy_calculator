@@ -2,8 +2,16 @@
 
 DLL_EXPORT int calc(char *s, int length)
 {
-    //中缀表达式
-    return 0;
+    //获取中缀表达式
+    std::vector<std::string> &&inFixExpression = str2In(s, length);
+
+    //获取后缀表达式
+    std::vector<std::string> &&postFixExpression = in2Post(inFixExpression);
+
+    //根据后缀表达式计算结果
+    int num = calc(postFixExpression);
+
+    return num;
 }
 
 std::vector<std::string> str2In(char *s, int length)
