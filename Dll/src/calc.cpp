@@ -1,6 +1,8 @@
 #include "calc.h"
 #include "cctype"
 #include "stack"
+#include "cstdlib"
+#include "sstream"
 
 DLL_EXPORT int calc(const char *s, int length)
 {
@@ -106,6 +108,48 @@ std::vector<std::string> in2Post(const std::vector<std::string> &inFixExpression
 
 int calc(const std::vector<std::string> &postFixExpression)
 {
+    std::stack<std::string> stack;
+
+    for (auto &s : postFixExpression)
+    {
+        if (s == "+" || s == "-" || s == "*" || s == "/")
+        {
+            int opr = atoi(stack.top().c_str());
+            stack.pop();
+            int opl = atoi(stack.top().c_str());
+            stack.pop();
+
+            int t = 0;
+            if (s == "+")
+            {
+                t = opl + opr;
+            }
+            else if (s == "-")
+            {
+                t = opl - opr;
+            }
+            else if (s == "*")
+            {
+                t = opl * opr;
+            }
+            else
+            {
+                t = opl / opr;
+            }
+
+            std::stringstream ss;
+            ss << t;
+            std::string st;
+            ss >> st;
+            stack.push(st);
+        }
+        else
+        {
+            stack.push(s);
+        }
+    }
+
+    return atoi(stack.top().c_str());
 }
 
 //测试
@@ -121,10 +165,12 @@ int main()
     //     std::cout << *cit << ' ';
     // }
     std::vector<std::string> &&postFixExpression = in2Post(inFixExpression);
-    for (auto cit = postFixExpression.cbegin(); cit != postFixExpression.cend(); cit++)
-    {
-        std::cout << *cit << ' ';
-    }
+    // for (auto cit = postFixExpression.cbegin(); cit != postFixExpression.cend(); cit++)
+    // {
+    //     std::cout << *cit << ' ';
+    // }
+    int num = calc(postFixExpression);
+    std::cout << num;
 
     return 0;
 }
