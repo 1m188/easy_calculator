@@ -2,3 +2,4 @@
 *.bat
 x86/
 EasyCalculator/env/
+*.pyc
