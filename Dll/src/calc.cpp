@@ -1,5 +1,6 @@
 #include "calc.h"
 #include "cctype"
+#include "stack"
 
 DLL_EXPORT int calc(const char *s, int length)
 {
@@ -42,11 +43,65 @@ std::vector<std::string> str2In(const char *s, int length)
         }
     }
 
+    if (!t.empty())
+    {
+        inFixExpression.push_back(t);
+    }
+
     return inFixExpression;
 }
 
 std::vector<std::string> in2Post(const std::vector<std::string> &inFixExpression)
 {
+    std::vector<std::string> postFixExpression;
+    std::stack<std::string> stack;
+
+    for (auto &s : inFixExpression)
+    {
+        if (s == "(")
+        {
+            stack.push(s);
+        }
+        else if (s == ")")
+        {
+            while (stack.top() != "(")
+            {
+                postFixExpression.push_back(stack.top());
+                stack.pop();
+            }
+            stack.pop();
+        }
+        else if (s == "+" || s == "-")
+        {
+            while (!stack.empty() && stack.top() != "(")
+            {
+                postFixExpression.push_back(stack.top());
+                stack.pop();
+            }
+            stack.push(s);
+        }
+        else if (s == "*" || s == "/")
+        {
+            while (!stack.empty() && stack.top() != "(" && stack.top() != "+" && stack.top() != "-")
+            {
+                postFixExpression.push_back(stack.top());
+                stack.pop();
+            }
+            stack.push(s);
+        }
+        else
+        {
+            postFixExpression.push_back(s);
+        }
+    }
+
+    while (!stack.empty())
+    {
+        postFixExpression.push_back(stack.top());
+        stack.pop();
+    }
+
+    return postFixExpression;
 }
 
 int calc(const std::vector<std::string> &postFixExpression)
@@ -60,11 +115,17 @@ int calc(const std::vector<std::string> &postFixExpression)
 
 int main()
 {
-    std::vector<std::string> &&inFixExpression = str2In("123+26-4*(5+5)", 14);
-    for (auto cit = inFixExpression.cbegin(); cit != inFixExpression.cend(); cit++)
+    std::vector<std::string> &&inFixExpression = str2In("123+26-4*(5+5)*7", 16);
+    // for (auto cit = inFixExpression.cbegin(); cit != inFixExpression.cend(); cit++)
+    // {
+    //     std::cout << *cit << ' ';
+    // }
+    std::vector<std::string> &&postFixExpression = in2Post(inFixExpression);
+    for (auto cit = postFixExpression.cbegin(); cit != postFixExpression.cend(); cit++)
     {
         std::cout << *cit << ' ';
     }
+
     return 0;
 }
 
