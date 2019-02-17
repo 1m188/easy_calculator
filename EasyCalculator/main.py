@@ -1,9 +1,10 @@
-from PySide2.QtWidgets import QWidget, QApplication
+from PySide2.QtWidgets import QApplication
 import sys
+from MainWindow import MainWindow
 
 app = QApplication(sys.argv)
 
-w = QWidget()
-w.show()
+mainWindow = MainWindow()
+mainWindow.show()
 
 app.exec_()
