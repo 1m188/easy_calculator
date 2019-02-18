@@ -1,12 +1,19 @@
 from PySide2.QtWidgets import QWidget, QApplication, QTextEdit, QPushButton, QGridLayout
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
+import ctypes
 
 
 #主窗口
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__(None)
+
+        #待计算的表达式字符串
+        self.calcStr = ""
+
+        #获取计算函数
+        self.calcFunc = ctypes.cdll.LoadLibrary("calc.dll").calc
 
         #设置窗口属性
         self.setAttribute(Qt.WA_DeleteOnClose, True)
@@ -28,11 +35,11 @@ class MainWindow(QWidget):
         layout = QGridLayout(self)
 
         #表达式输入文本框
-        inputTextEdit = QTextEdit(self)
-        inputTextEdit.setReadOnly(True)
-        inputTextEdit.setContextMenuPolicy(Qt.NoContextMenu)
-        inputTextEdit.viewport().setCursor(Qt.ArrowCursor)
-        layout.addWidget(inputTextEdit, 0, 0, 1, 4)
+        self.inputTextEdit = QTextEdit(self)
+        self.inputTextEdit.setReadOnly(True)
+        self.inputTextEdit.setContextMenuPolicy(Qt.NoContextMenu)
+        self.inputTextEdit.viewport().setCursor(Qt.ArrowCursor)
+        layout.addWidget(self.inputTextEdit, 0, 0, 1, 4)
 
         #各种数字按钮
         for i in range(10):
@@ -40,6 +47,7 @@ class MainWindow(QWidget):
             button.setObjectName(str(i))
             button.setFont(QFont("微软雅黑", 20))
             button.setText(str(i))
+            button.clicked.connect(self.buttonClicked)
             if i == 0:
                 layout.addWidget(button, 4, 1, 1, 1)
             elif i >= 1 and i <= 3:
@@ -55,6 +63,7 @@ class MainWindow(QWidget):
             button.setObjectName(i)
             button.setFont(QFont("微软雅黑", 20))
             button.setText(i)
+            button.clicked.connect(self.buttonClicked)
             if i == "+":
                 layout.addWidget(button, 1, 3, 1, 1)
             elif i == "-":
@@ -65,3 +74,17 @@ class MainWindow(QWidget):
                 layout.addWidget(button, 4, 3, 1, 1)
             elif i == "=":
                 layout.addWidget(button, 4, 2, 1, 1)
+
+    #某个按钮被按下
+    def buttonClicked(self):
+        if self.sender().objectName() != "=":
+            self.calcStr += self.sender().objectName()
+            calcStrVec = self.inputTextEdit.toPlainText().split('\n')
+            calcStrVec[-1] = self.calcStr
+            self.inputTextEdit.setText("\n".join(calcStrVec))
+        else:
+            #按下按钮为=时，使用动态链接库里的函数计算结果
+            result = self.calcFunc(
+                self.calcStr.encode("utf-8"), len(self.calcStr))
+            self.inputTextEdit.append(str(result) + "\n\n")
+            self.calcStr = ""
