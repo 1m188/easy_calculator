@@ -132,9 +132,13 @@ int calc(const std::vector<std::string> &postFixExpression)
             {
                 t = opl * opr;
             }
-            else
+            else if (opr != 0)
             {
                 t = opl / opr;
+            }
+            else
+            {
+                return 0;
             }
 
             std::stringstream ss;
@@ -159,7 +163,7 @@ int calc(const std::vector<std::string> &postFixExpression)
 
 int main()
 {
-    std::vector<std::string> &&inFixExpression = str2In("123+26-4*(5+5)*7", 16);
+    std::vector<std::string> &&inFixExpression = str2In("8+9", 3);
     // for (auto cit = inFixExpression.cbegin(); cit != inFixExpression.cend(); cit++)
     // {
     //     std::cout << *cit << ' ';
