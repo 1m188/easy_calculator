@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QWidget, QApplication, QTextEdit, QPushButton, QGridLayout
+from PySide2.QtWidgets import QWidget, QApplication, QTextEdit, QPushButton, QGridLayout, QLabel
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
 import ctypes
@@ -58,7 +58,7 @@ class MainWindow(QWidget):
                 layout.addWidget(button, 1, i - 7, 1, 1)
 
         #各种符号按钮
-        for i in ["+", "-", "*", "/", "=", "<"]:
+        for i in ["+", "-", "*", "/", "=", "<", "(", ")"]:
             button = QPushButton(self)
             button.setObjectName(i)
             button.setFont(QFont("微软雅黑", 20))
@@ -76,6 +76,17 @@ class MainWindow(QWidget):
                 layout.addWidget(button, 4, 2, 1, 1)
             elif i == "<":
                 layout.addWidget(button, 4, 0, 1, 1)
+            elif i == "(":
+                layout.addWidget(button, 5, 0, 1, 1)
+            elif i == ")":
+                layout.addWidget(button, 5, 1, 1, 1)
+
+        #版本信息
+        versionlabel = QLabel(self)
+        versionlabel.setAlignment(Qt.AlignCenter)
+        versionlabel.setFont(QFont("微软雅黑", 15))
+        versionlabel.setText("简易四则运算器-v1.0")
+        layout.addWidget(versionlabel, 5, 2, 1, 2)
 
     #某个按钮被按下
     def buttonClicked(self):
