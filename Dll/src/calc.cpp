@@ -1,10 +1,9 @@
 #include "calc.h"
 #include "cctype"
 #include "stack"
-#include "cstdlib"
 #include "sstream"
 
-DLL_EXPORT int calc(const char *s, int length)
+DLL_EXPORT long calc(const char *s, unsigned int length)
 {
     //获取中缀表达式
     std::vector<std::string> &&inFixExpression = str2In(s, length);
@@ -13,17 +12,17 @@ DLL_EXPORT int calc(const char *s, int length)
     std::vector<std::string> &&postFixExpression = in2Post(inFixExpression);
 
     //根据后缀表达式计算结果
-    int num = calc(postFixExpression);
+    long num = calc(postFixExpression);
 
     return num;
 }
 
-std::vector<std::string> str2In(const char *s, int length)
+std::vector<std::string> str2In(const char *s, unsigned int length)
 {
     std::vector<std::string> inFixExpression;
     std::string t;
 
-    for (int i = 0; i < length; i++)
+    for (unsigned int i = 0; i < length; i++)
     {
         //如果是数字直接加进去
         if (isdigit(s[i]))
@@ -106,20 +105,29 @@ std::vector<std::string> in2Post(const std::vector<std::string> &inFixExpression
     return postFixExpression;
 }
 
-int calc(const std::vector<std::string> &postFixExpression)
+long long calc(const std::vector<std::string> &postFixExpression)
 {
     std::stack<std::string> stack;
+    std::stringstream ss;
 
     for (auto &s : postFixExpression)
     {
         if (s == "+" || s == "-" || s == "*" || s == "/")
         {
-            int opr = atoi(stack.top().c_str());
-            stack.pop();
-            int opl = atoi(stack.top().c_str());
+            //这里记得使用stringstream的时候每次都要清空，尤其是需要反复使用的时候，没清空的话上次的数据还会残留在流中
+            ss.clear();
+            ss << stack.top();
+            long long opr = 0;
+            ss >> opr;
             stack.pop();
 
-            int t = 0;
+            ss.clear();
+            ss << stack.top();
+            long long opl = 0;
+            ss >> opl;
+            stack.pop();
+
+            long long t = 0;
             if (s == "+")
             {
                 t = opl + opr;
@@ -141,7 +149,7 @@ int calc(const std::vector<std::string> &postFixExpression)
                 return 0;
             }
 
-            std::stringstream ss;
+            ss.clear();
             ss << t;
             std::string st;
             ss >> st;
@@ -153,7 +161,11 @@ int calc(const std::vector<std::string> &postFixExpression)
         }
     }
 
-    return atoi(stack.top().c_str());
+    ss.clear();
+    ss << stack.top();
+    long long num = 0;
+    ss >> num;
+    return num;
 }
 
 //测试
@@ -163,7 +175,7 @@ int calc(const std::vector<std::string> &postFixExpression)
 
 int main()
 {
-    std::vector<std::string> &&inFixExpression = str2In("8+9", 3);
+    std::vector<std::string> &&inFixExpression = str2In("2*1234567890", 12);
     // for (auto cit = inFixExpression.cbegin(); cit != inFixExpression.cend(); cit++)
     // {
     //     std::cout << *cit << ' ';
@@ -173,7 +185,7 @@ int main()
     // {
     //     std::cout << *cit << ' ';
     // }
-    int num = calc(postFixExpression);
+    long long num = calc(postFixExpression);
     std::cout << num;
 
     return 0;
