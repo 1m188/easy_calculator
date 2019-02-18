@@ -9,7 +9,7 @@
 #endif
 
 //用C的函数方式导出
-#ifdef RELEASE
+#if defined RELEASE && defined __cpluscplus
 extern "C"
 {
 #endif
@@ -17,7 +17,7 @@ extern "C"
     //对外调用的计算接口
     DLL_EXPORT int calc(const char *s, int length);
 
-#ifdef RELEASE
+#if defined RELEASE && defined __cpluscplus
 }
 #endif
 
