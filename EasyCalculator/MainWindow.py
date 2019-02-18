@@ -97,11 +97,13 @@ class MainWindow(QWidget):
                 self.calcStr.encode("utf-8"), len(self.calcStr))
             self.inputTextEdit.append(str(result) + "\n\n")
             self.calcStr = ""
+        #退格
         elif senderStr == "<":
             self.calcStr = self.calcStr[:len(self.calcStr) - 1]
             s = self.inputTextEdit.toPlainText()
             s = s[:len(s) - 1]
             self.inputTextEdit.setText(s)
+        #其他的表达式字符串内容
         else:
             self.calcStr += senderStr
             calcStrVec = self.inputTextEdit.toPlainText().split('\n')
