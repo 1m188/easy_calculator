@@ -58,7 +58,7 @@ class MainWindow(QWidget):
                 layout.addWidget(button, 1, i - 7, 1, 1)
 
         #各种符号按钮
-        for i in ["+", "-", "*", "/", "="]:
+        for i in ["+", "-", "*", "/", "=", "<"]:
             button = QPushButton(self)
             button.setObjectName(i)
             button.setFont(QFont("微软雅黑", 20))
@@ -74,17 +74,25 @@ class MainWindow(QWidget):
                 layout.addWidget(button, 4, 3, 1, 1)
             elif i == "=":
                 layout.addWidget(button, 4, 2, 1, 1)
+            elif i == "<":
+                layout.addWidget(button, 4, 0, 1, 1)
 
     #某个按钮被按下
     def buttonClicked(self):
-        if self.sender().objectName() != "=":
-            self.calcStr += self.sender().objectName()
-            calcStrVec = self.inputTextEdit.toPlainText().split('\n')
-            calcStrVec[-1] = self.calcStr
-            self.inputTextEdit.setText("\n".join(calcStrVec))
-        else:
+        senderStr = self.sender().objectName()
+        if senderStr == "=":
             #按下按钮为=时，使用动态链接库里的函数计算结果
             result = self.calcFunc(
                 self.calcStr.encode("utf-8"), len(self.calcStr))
             self.inputTextEdit.append(str(result) + "\n\n")
             self.calcStr = ""
+        elif senderStr == "<":
+            self.calcStr = self.calcStr[:len(self.calcStr) - 1]
+            s = self.inputTextEdit.toPlainText()
+            s = s[:len(s) - 1]
+            self.inputTextEdit.setText(s)
+        else:
+            self.calcStr += senderStr
+            calcStrVec = self.inputTextEdit.toPlainText().split('\n')
+            calcStrVec[-1] = self.calcStr
+            self.inputTextEdit.setText("\n".join(calcStrVec))
