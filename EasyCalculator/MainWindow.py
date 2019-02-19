@@ -96,7 +96,7 @@ class MainWindow(QWidget):
             #按下按钮为=时，使用动态链接库里的函数计算结果
             result = self.calcFunc(
                 self.calcStr.encode("utf-8"), len(self.calcStr))
-            self.inputTextEdit.append(str(result) + "\n\n")
+            self.inputTextEdit.append(str(result))
             self.calcStr = ""
         #退格
         elif senderStr == "<":
@@ -106,10 +106,13 @@ class MainWindow(QWidget):
             self.inputTextEdit.setText(s)
         #其他的表达式字符串内容
         else:
+            text = self.inputTextEdit.toPlainText()
+            if self.calcStr != "" or text == "":
+                text += senderStr
+            else:
+                text += "\n" + senderStr
             self.calcStr += senderStr
-            calcStrVec = self.inputTextEdit.toPlainText().split('\n')
-            calcStrVec[-1] = self.calcStr
-            self.inputTextEdit.setText("\n".join(calcStrVec))
+            self.inputTextEdit.setText(text)
         #使滑条始终滑到最下方
         scrollBar = self.inputTextEdit.verticalScrollBar()
         if scrollBar:
