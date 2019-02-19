@@ -110,3 +110,7 @@ class MainWindow(QWidget):
             calcStrVec = self.inputTextEdit.toPlainText().split('\n')
             calcStrVec[-1] = self.calcStr
             self.inputTextEdit.setText("\n".join(calcStrVec))
+        #使滑条始终滑到最下方
+        scrollBar = self.inputTextEdit.verticalScrollBar()
+        if scrollBar:
+            scrollBar.setSliderPosition(scrollBar.maximum())
