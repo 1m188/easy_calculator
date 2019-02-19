@@ -36,6 +36,7 @@ class MainWindow(QWidget):
 
         #表达式输入文本框
         self.inputTextEdit = QTextEdit(self)
+        self.inputTextEdit.setFont(QFont("微软雅黑", 20))
         self.inputTextEdit.setReadOnly(True)
         self.inputTextEdit.setContextMenuPolicy(Qt.NoContextMenu)
         self.inputTextEdit.viewport().setCursor(Qt.ArrowCursor)
