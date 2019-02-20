@@ -96,21 +96,21 @@ class MainWindow(QWidget):
             #按下按钮为=时，使用动态链接库里的函数计算结果
             result = self.calcFunc(
                 self.calcStr.encode("utf-8"), len(self.calcStr))
-            self.inputTextEdit.append(str(result))
+            #给出结果之后还要另外再加一个回车，防止回退擦除计算结果
+            self.inputTextEdit.append(str(result) + '\n')
             self.calcStr = ""
         #退格
         elif senderStr == "<":
-            self.calcStr = self.calcStr[:len(self.calcStr) - 1]
-            s = self.inputTextEdit.toPlainText()
-            s = s[:len(s) - 1]
-            self.inputTextEdit.setText(s)
+            text = self.inputTextEdit.toPlainText()
+            #不在每一行开头的时候可以回退
+            if text != "" and text[-1] != '\n':
+                self.calcStr = self.calcStr[:len(self.calcStr) - 1]
+                text = text[:len(text) - 1]
+                self.inputTextEdit.setText(text)
         #其他的表达式字符串内容
         else:
             text = self.inputTextEdit.toPlainText()
-            if self.calcStr != "" or text == "":
-                text += senderStr
-            else:
-                text += "\n" + senderStr
+            text += senderStr
             self.calcStr += senderStr
             self.inputTextEdit.setText(text)
         #使滑条始终滑到最下方
