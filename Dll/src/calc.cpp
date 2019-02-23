@@ -3,7 +3,7 @@
 #include "stack"
 #include "sstream"
 
-DLL_EXPORT long calc(const char *s, unsigned int length)
+DLL_EXPORT long long calc(const char *s, unsigned int length)
 {
     //获取中缀表达式
     std::vector<std::string> &&inFixExpression = str2In(s, length);
@@ -12,7 +12,7 @@ DLL_EXPORT long calc(const char *s, unsigned int length)
     std::vector<std::string> &&postFixExpression = in2Post(inFixExpression);
 
     //根据后缀表达式计算结果
-    long num = calc(postFixExpression);
+    long long num = calc(postFixExpression);
 
     return num;
 }

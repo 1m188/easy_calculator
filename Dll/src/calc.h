@@ -15,7 +15,7 @@ extern "C"
 #endif
 
     //对外调用的计算接口
-    DLL_EXPORT long calc(const char *s, unsigned int length);
+    DLL_EXPORT long long calc(const char *s, unsigned int length);
 
 #ifdef RELEASE
 }
