@@ -13,7 +13,9 @@ class MainWindow(QWidget):
         self.calcStr = ""
 
         #获取计算函数
-        self.calcFunc = ctypes.cdll.LoadLibrary("calc.dll").calc
+        dll = ctypes.cdll.LoadLibrary("calc.dll")
+        dll.calc.restype = ctypes.c_longlong
+        self.calcFunc = dll.calc
 
         #设置窗口属性
         self.setAttribute(Qt.WA_DeleteOnClose, True)
