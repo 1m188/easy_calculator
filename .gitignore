@@ -1,8 +1,17 @@
+# 忽略vscode配置文件夹
 .vscode/
-*.bat
-x86/
+
+# 忽略py虚拟环境
 EasyCalculator/env/
+
+# 忽略py生成的pyc文件
 *.pyc
+
+# 忽略dll的构建目录
 Dll/.xmake
+
+# 忽略dll的编译目录
 Dll/build
+
+# 忽略经常更新的py所调用的dll
 EasyCalculator/dll/
