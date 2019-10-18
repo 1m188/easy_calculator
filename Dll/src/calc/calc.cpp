@@ -3,7 +3,7 @@
 #include "stack"
 #include "sstream"
 
-DLL_EXPORT long long calc(const char *s, unsigned int length)
+long long calc(const char *s, unsigned int length)
 {
     //获取中缀表达式
     std::vector<std::string> &&inFixExpression = str2In(s, length);
@@ -167,28 +167,3 @@ long long calc(const std::vector<std::string> &postFixExpression)
     ss >> num;
     return num;
 }
-
-//测试
-#ifdef DEBUG
-
-#include "iostream"
-
-int main()
-{
-    std::vector<std::string> &&inFixExpression = str2In("2*1234567890", 12);
-    // for (auto cit = inFixExpression.cbegin(); cit != inFixExpression.cend(); cit++)
-    // {
-    //     std::cout << *cit << ' ';
-    // }
-    std::vector<std::string> &&postFixExpression = in2Post(inFixExpression);
-    // for (auto cit = postFixExpression.cbegin(); cit != postFixExpression.cend(); cit++)
-    // {
-    //     std::cout << *cit << ' ';
-    // }
-    long long num = calc(postFixExpression);
-    std::cout << num;
-
-    return 0;
-}
-
-#endif
