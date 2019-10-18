@@ -13,7 +13,7 @@ class MainWindow(QWidget):
         self.calcStr = ""
 
         # 获取计算函数
-        dll = ctypes.cdll.LoadLibrary("calc.dll")
+        dll = ctypes.cdll.LoadLibrary("dll/calc.dll")
         dll.calc.restype = ctypes.c_longlong
         self.calcFunc = dll.calc
 

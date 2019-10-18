@@ -5,3 +5,4 @@ EasyCalculator/env/
 *.pyc
 Dll/.xmake
 Dll/build
+EasyCalculator/dll/
