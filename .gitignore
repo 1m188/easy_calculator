@@ -3,3 +3,4 @@
 x86/
 EasyCalculator/env/
 *.pyc
+Dll/.xmake
