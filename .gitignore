@@ -7,9 +7,6 @@ EasyCalculator/env/
 # 忽略py生成的pyc文件
 *.pyc
 
-# 忽略dll的构建目录
-Dll/.xmake
-
 # 忽略dll的编译目录
 Dll/build
 
