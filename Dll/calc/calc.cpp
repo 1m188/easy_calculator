@@ -1,4 +1,5 @@
 #include "calc.h"
+#include "calc_inside.h"
 #include "cctype"
 #include "stack"
 #include "sstream"
