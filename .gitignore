@@ -2,13 +2,13 @@
 .vscode/
 
 # 忽略py虚拟环境
-EasyCalculator/env/
+src_py/env/
 
 # 忽略py生成的pyc文件
 *.pyc
 
 # 忽略dll的编译目录
-Dll/build
+src_dll/build/
 
 # 忽略经常更新的py所调用的dll
-EasyCalculator/dll/
+src_py/dll/
