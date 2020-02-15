@@ -88,7 +88,7 @@ class MainWindow(QWidget):
         versionlabel = QLabel(self)
         versionlabel.setAlignment(Qt.AlignCenter)
         versionlabel.setFont(QFont("微软雅黑", 15))
-        versionlabel.setText("简易四则运算器-v1.0")
+        versionlabel.setText("简易四则运算器-v*.*")
         layout.addWidget(versionlabel, 5, 2, 1, 2)
 
     # 某个按钮被按下
