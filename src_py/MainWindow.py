@@ -1,7 +1,7 @@
 from PySide2.QtWidgets import QWidget, QApplication, QTextEdit, QPushButton, QGridLayout, QLabel
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
-import ctypes
+from calc import Calc
 
 
 # 主窗口
@@ -13,9 +13,7 @@ class MainWindow(QWidget):
         self.calcStr = ""
 
         # 获取计算函数
-        dll = ctypes.cdll.LoadLibrary("dll/calc.dll")
-        dll.calc.restype = ctypes.c_longlong
-        self.calcFunc = dll.calc
+        self.calc = Calc("dll/calc.dll")
 
         # 设置窗口属性
         self.setAttribute(Qt.WA_DeleteOnClose, True)
@@ -96,7 +94,7 @@ class MainWindow(QWidget):
         senderStr = self.sender().objectName()
         if senderStr == "=":
             # 按下按钮为=时，使用动态链接库里的函数计算结果
-            result = self.calcFunc(self.calcStr.encode("utf-8"), len(self.calcStr))
+            result = self.calc.calc(self.calcStr)
             # 给出结果之后还要另外再加一个回车，防止回退擦除计算结果
             self.inputTextEdit.append(str(result) + '\n')
             self.calcStr = ""
