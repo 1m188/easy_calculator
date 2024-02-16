@@ -12,3 +12,7 @@ src_dll/build/
 
 # 忽略经常更新的py所调用的dll
 src_py/dll/
+
+# 忽略打包生成结果
+src_py/build/
+src_py/dist/
