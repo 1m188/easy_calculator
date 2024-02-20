@@ -1,11 +1,13 @@
 from PySide2.QtWidgets import QWidget, QApplication, QTextEdit, QPushButton, QGridLayout, QLabel
 from PySide2.QtCore import Qt
-from PySide2.QtGui import QFont
+from PySide2.QtGui import QFont, QIcon
 from calc import Calc
+from pathlib import Path
 
 
 # 主窗口
 class MainWindow(QWidget):
+
     def __init__(self):
         super().__init__(None)
 
@@ -25,6 +27,9 @@ class MainWindow(QWidget):
         # 设置窗口大小和标题
         self.setWindowTitle("简单四则运算器")
         self.resize(500, 600)
+
+        p = str(Path(__file__).resolve().parent / 'icon.ico')
+        self.setWindowIcon(QIcon(p))
 
         # 移动到屏幕中央
         rect = self.frameGeometry()
